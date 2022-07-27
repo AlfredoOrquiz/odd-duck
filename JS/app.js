@@ -41,6 +41,7 @@ console.log('hi');
 /* Global variables */
 
 let allDucks = [];
+let indexArray = [];
 
 let duckContainer = document.querySelector('section');
 let resultButton = document.querySelector('section + div');
@@ -49,7 +50,7 @@ let image2 = document.getElementById('Image2');
 let image3 = document.getElementById('Image3');
 
 let clicks = 0;
-let maxClicksAllowed = 25;
+let maxClicksAllowed = 5;
 
 /* Constructor */
 
@@ -73,12 +74,22 @@ function renderDucks() {
   let duck3 = getRandomNumber();
   console.log(duck1, duck2, duck3);
 
-  while ((duck1 === duck2) || (duck1 === duck3)) {
-    duck1 = getRandomNumber();
-    while ((duck3 === duck1) || (duck3 === duck2)) {
-      duck3 = getRandomNumber();
+  while (indexArray.length < 6) {
+    let randNum = getRandomNumber();
+    if (!indexArray.includes(randNum)) {
+      indexArray.push(randNum);
     }
-  } console.log(duck1, duck2, duck3);
+  }
+  console.log(indexArray[0], indexArray[1], indexArray[2],
+    indexArray[3], indexArray[4], indexArray[5], indexArray[6],
+    indexArray[7], indexArray[8],);
+
+  duck1 = indexArray.shift();
+  duck2 = indexArray.shift();
+  duck3 = indexArray.shift();
+  console.log(indexArray);
+
+  console.log('end result: ', duck1, duck2, duck3);
 
   image1.src = allDucks[duck1].src;
   image2.src = allDucks[duck2].src;
@@ -92,6 +103,8 @@ function renderDucks() {
 }
 console.log(allDucks);
 console.log(image1);
+console.log(image2);
+console.log(image3);
 
 function handleDuckClick(event) {
   if (event.target === duckContainer) {
@@ -107,10 +120,9 @@ function handleDuckClick(event) {
   }
   renderDucks();
   if (clicks === maxClicksAllowed) {
-    resultButton.className = 'clicks-allowed';
+    resultButton.className = 'getResultsButton';
     duckContainer.removeEventListener('click', handleDuckClick);
     resultButton.addEventListener('click', renderResults);
-    duckContainer.className = 'no-voting';
   } else {
     renderDucks();
   }
@@ -119,6 +131,7 @@ function handleDuckClick(event) {
 function handleButtonClick() {
   if (click === clickAllowed) {
     renderResults();
+    renderChart();
   }
 }
 
@@ -129,12 +142,83 @@ function renderResults() {
   
   let ul = document.querySelector('ul');
   for (let i = 0; i < allDucks.length; i++) {
-    let li= document.createElement('li')
+    let li= document.createElement('li');
     li.textContent = `${allDucks[i].name} had 
     ${allDucks[i].views} view and was clicked 
     ${allDucks[i].clicks} times.`;
     ul.appendChild(li);
   }
+}
+
+// Chart code
+
+// console.log(allDucks[0].name)
+
+
+function renderChart(){
+
+  let duckNames = [];
+  let duckViews = [];
+  let duckClicks = [];
+  for (let i = 0; i < allDucks.length; i++) {
+    duckNames.push(allDucks[i].name);
+    duckViews.push(allDucks[i].views);
+    duckClicks.push(allDucks[i].clicks);
+  }
+  console.log(duckNames);
+  console.log(duckViews);
+  console.log(duckClicks);
+
+  const label = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray'];
+
+  const data = {
+    label: duckNames,
+    datasets: [
+      {
+      label: 'Clicks Dataset',
+      data: duckClicks,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        
+      ],
+      borderWidth: 1
+    },
+    {
+      label: 'Views Dataset',
+      data: duckViews,
+      backgroundColor: [
+        
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }
+  ]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+  
+  const myChart = new Chart(
+    document.getElementById('myChart').getContext('2D'),
+    config
+  );
 }
 
 /* Executable code*/
@@ -171,6 +255,8 @@ renderDucks();
 
 duckContainer.addEventListener('click', handleDuckClick);
 
+
+
 // if (clicks === clickallowed) {
 //   myButton.className = 'clicks-allowed';
 //   myContainer.removeEventListener('click', handleDuckClick);
@@ -193,3 +279,27 @@ duckContainer.addEventListener('click', handleDuckClick);
 //     ul.appendChild(li);
 //   }
 // }
+// 'rgba(255, 159, 64, 0.2)',
+ // 'rgba(255, 205, 86, 0.2)',
+ // 'rgba(75, 192, 192, 0.2)',
+ // 'rgba(54, 162, 235, 0.2)',
+ // 'rgba(153, 102, 255, 0.2)',
+ // 'rgba(201, 203, 207, 0.2)'
+// 'rgb(255, 159, 64)',
+// 'rgb(255, 205, 86)',
+// 'rgb(75, 192, 192)',
+// 'rgb(54, 162, 235)',
+// 'rgb(153, 102, 255)',
+// 'rgb(201, 203, 207)'
+// 'rgb(255, 99, 132)',
+// 'rgb(255, 159, 64)',
+// 'rgb(255, 205, 86)',
+// 'rgb(75, 192, 192)',
+// 'rgb(54, 162, 235)',
+// 'rgb(153, 102, 255)',
+// 'rgba(255, 99, 132, 0.2)',
+// 'rgba(255, 159, 64, 0.2)',
+// 'rgba(255, 205, 86, 0.2)',
+// 'rgba(75, 192, 192, 0.2)',
+// 'rgba(54, 162, 235, 0.2)',
+// 'rgba(153, 102, 255, 0.2)',

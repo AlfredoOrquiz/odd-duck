@@ -12,6 +12,7 @@ h1 {
   font-size: 2rem;
   color:rosybrown;
   line-height: .8;
+  color: red;
 }
 
 main {
@@ -30,8 +31,20 @@ main {
   grid-row-end: 3;
 }
 
+#Image1:hover {
+  cursor: pointer;
+}
+
+#Image2:hover {
+  cursor: pointer;
+}
+
+#Image3:hover {
+  cursor: pointer;
+}
+
 section {
-  background-color: rgba(211, 187, 176, 0.3);  
+  background-color: rgba(211, 187, 176, 0.3);
 }
 
 /* Class selectors */
@@ -39,16 +52,33 @@ section {
 .container {
   border: 5px solid red;
   display: grid;
-  grid-template-columns: 10% 30% 30% 30%;
+  grid-template-columns: 25% 25% 25% 25%;
   grid-template-rows: 250px 150px 300px;
 }
 
-.empty {
-  background-color: aqua;
+#chart {
+  /* background-color: aqua; */
   grid-column-start: 2;
   grid-column-end: 5;
   grid-row-start: 2;
   grid-row-end: 3;
+}
+
+.getResultsButton {
+  background: #11cdd4;
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: 'Montserrat', sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  width: 20%;
+}
+
+.getResultsButton:hover {
+  cursor: pointer;
 }
 
 .parragraph {
