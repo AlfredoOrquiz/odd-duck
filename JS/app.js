@@ -32,8 +32,6 @@ Odd Duck
       - Duck clicks
         - Increment the vote
         - Trigger a new set of ducks
-
-
  */
 
 console.log('hi');
@@ -49,7 +47,7 @@ let image1 = document.getElementById('Image1');
 let image2 = document.getElementById('Image2');
 let image3 = document.getElementById('Image3');
 
-let clicks = 0;
+let votes = 0;
 let maxClicksAllowed = 5;
 
 /* Constructor */
@@ -59,7 +57,6 @@ function Duck(name, src = 'jpg') {
   this.src = `./Images/${this.name}.${src}`;
   this.views = 0;
   this.clicks = 0;
-  // Duck.allDucksArray.push(this);
 }
 
 /* Functions */
@@ -75,19 +72,19 @@ function renderDucks() {
   console.log(duck1, duck2, duck3);
 
   while (indexArray.length < 6) {
+    // console.log(indexArray.length);
     let randNum = getRandomNumber();
+    // console.log(randNum);
+    // console.log(indexArray);
     if (!indexArray.includes(randNum)) {
       indexArray.push(randNum);
+      // console.log(indexArray);
     }
   }
-  console.log(indexArray[0], indexArray[1], indexArray[2],
-    indexArray[3], indexArray[4], indexArray[5], indexArray[6],
-    indexArray[7], indexArray[8],);
 
   duck1 = indexArray.shift();
   duck2 = indexArray.shift();
   duck3 = indexArray.shift();
-  console.log(indexArray);
 
   console.log('end result: ', duck1, duck2, duck3);
 
@@ -109,28 +106,31 @@ console.log(image3);
 function handleDuckClick(event) {
   if (event.target === duckContainer) {
     alert('Please click on an image');
+    return
   }
-  clicks++;
+  votes++;
   let clickDuck = event.target.alt;
+  // console.log(clickDuck);
   for (let i = 0; i < allDucks.length; i++) {
+    // console.log(allDucks[i].name);
     if (clickDuck === allDucks[i].name) {
       allDucks[i].clicks++;
+      // console.log(allDucks[i].clicks);
       break;
     }
   }
+
   renderDucks();
-  if (clicks === maxClicksAllowed) {
-    resultButton.className = 'getResultsButton';
+  if (votes === maxClicksAllowed) {
     duckContainer.removeEventListener('click', handleDuckClick);
-    resultButton.addEventListener('click', renderResults);
-  } else {
-    renderDucks();
+    resultButton.addEventListener('click', handleButtonClick);
   }
 }
 
 function handleButtonClick() {
-  if (click === clickAllowed) {
+  if (votes === maxClicksAllowed) {
     renderResults();
+    console.log('Chart should be inserted after results here.');
     renderChart();
   }
 }
@@ -157,54 +157,56 @@ function renderResults() {
 
 function renderChart(){
 
-  // const ctx = document.getElementById('myChart').getContext('2d');
-  // const myChart = new Chart(ctx,) {}
+  console.log('Chart should go in here');
 
-  let duckNames = [];
-  let duckViews = [];
-  let duckClicks = [];
-  for (let i = 0; i < allDucks.length; i++) {
-    duckNames.push(allDucks[i].name);
-    duckViews.push(allDucks[i].views);
-    duckClicks.push(allDucks[i].clicks);
-  }
-  console.log(duckNames);
-  console.log(duckViews);
-  console.log(duckClicks);
-
-  const label = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray'];
-
-  const data = {
-    label: duckNames,
-    datasets: [
-      {
-      label: 'Clicks Dataset',
-      data: duckClicks,
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        
-      ],
-      borderColor: [
-        'rgb(255, 99, 132)',
-        
-      ],
-      borderWidth: 1
-    },
-    {
-      label: 'Views Dataset',
-      data: duckViews,
-      backgroundColor: [
-        
-        'rgba(201, 203, 207, 0.2)'
-      ],
-      borderColor: [
-        
-        'rgb(201, 203, 207)'
-      ],
-      borderWidth: 1
+    let duckNames = [];
+    let duckViews = [];
+    let duckClicks = [];
+    for (let i = 0; i < allDucks.length; i++) {
+      duckNames.push(allDucks[i].name);
+      duckViews.push(allDucks[i].views);
+      duckClicks.push(allDucks[i].clicks);
     }
-  ]
-  };
+
+    const label = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray'];
+
+    
+    const data = {
+      label: duckNames,
+      datasets: [
+        {
+        label: 'Clicks',
+        data: duckClicks,
+        // [65, 59, 80, 81, 56, 55, 40]
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+        
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+        
+        ],
+        borderWidth: 1
+      },
+      {
+        label: 'Views',
+        data: duckViews,
+        // [65, 59, 80, 81, 56, 55, 40]
+        backgroundColor: [
+        
+         'rgba(201, 203, 207, 0.2)'
+        ],
+        borderColor: [
+        
+          'rgb(201, 203, 207)'
+        ],
+        borderWidth: 1
+      }
+    ]
+    };
+    console.log(duckNames);
+    console.log(duckViews);
+    console.log(duckClicks);
 
   const config = {
     type: 'bar',
@@ -219,7 +221,7 @@ function renderChart(){
   };
   
   const myChart = new Chart(
-    document.getElementById('myChart').getContext('2D'),
+    document.getElementById('myChart').getContext('2d'),
     config
   );
 }
