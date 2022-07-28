@@ -48,7 +48,7 @@ let image2 = document.getElementById('Image2');
 let image3 = document.getElementById('Image3');
 
 let votes = 0;
-let maxClicksAllowed = 5;
+let maxClicksAllowed = 25;
 
 /* Constructor */
 
@@ -168,11 +168,11 @@ function renderChart(){
       duckClicks.push(allDucks[i].clicks);
     }
 
-    const label = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray'];
+    let labels = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'gray'];
 
     
     const data = {
-      label: duckNames,
+      labels: duckNames,
       datasets: [
         {
         label: 'Clicks',
@@ -180,30 +180,28 @@ function renderChart(){
         // [65, 59, 80, 81, 56, 55, 40]
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
-        
         ],
         borderColor: [
           'rgb(255, 99, 132)',
-        
         ],
-        borderWidth: 1
+        borderWidth: 2
       },
       {
         label: 'Views',
         data: duckViews,
         // [65, 59, 80, 81, 56, 55, 40]
         backgroundColor: [
-        
          'rgba(201, 203, 207, 0.2)'
         ],
         borderColor: [
-        
           'rgb(201, 203, 207)'
         ],
-        borderWidth: 1
+        borderWidth: 2
       }
     ]
     };
+    // console.log(backgroundColor);
+    // console.log(borderColor);
     console.log(duckNames);
     console.log(duckViews);
     console.log(duckClicks);
@@ -213,18 +211,30 @@ function renderChart(){
     data: data,
     options: {
       scales: {
+        x: {
+          barThickness: 150,
+          gridLines: {
+            display: false
+          }
+        },
         y: {
+          barThickness: 150,
+          gridLines: {
+            display: false
+          },
           beginAtZero: true
         }
       }
     },
   };
   
-  const myChart = new Chart(
-    document.getElementById('myChart').getContext('2d'),
+  let myChart = new Chart(
+    document.getElementById('myChart'),
     config
   );
+  // console.log(config);
 }
+// .getContext('2d')
 
 /* Executable code*/
 
