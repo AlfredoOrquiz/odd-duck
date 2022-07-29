@@ -52,11 +52,14 @@ let maxClicksAllowed = 25;
 
 /* Constructor */
 
-function Duck(name, src = 'jpg') {
+function Duck(name, extension = 'jpg') {
   this.name = name;
-  this.src = `./Images/${this.name}.${src}`;
+  this.src = `./Images/${this.name}.${extension}`;
   this.views = 0;
   this.clicks = 0;
+  this.extension = extension;
+
+  allDucks.push(this);
 }
 
 /* Functions */
@@ -72,13 +75,9 @@ function renderDucks() {
   console.log(duck1, duck2, duck3);
 
   while (indexArray.length < 6) {
-    // console.log(indexArray.length);
     let randNum = getRandomNumber();
-    // console.log(randNum);
-    // console.log(indexArray);
     if (!indexArray.includes(randNum)) {
       indexArray.push(randNum);
-      // console.log(indexArray);
     }
   }
 
@@ -124,6 +123,7 @@ function handleDuckClick(event) {
   if (votes === maxClicksAllowed) {
     duckContainer.removeEventListener('click', handleDuckClick);
     resultButton.addEventListener('click', handleButtonClick);
+    updateStorage();
   }
 }
 
@@ -135,11 +135,24 @@ function handleButtonClick() {
   }
 }
 
+function updateStorage() {
+  const arrayString = JSON.stringify(allDucks);
+  console.log(arrayString);
+  localStorage.setItem('voteData', arrayString);
+}
+
+function voteData() {
+  const data = localStorage.getItem('voteData');
+  const voteData = JSON.parse(data);
+  if (voteData !== null) {
+    allDucks = voteData;
+  }
+}
+
 function renderResults() {
 
   /* For each Duck in my array, I need to generate an LI
   for EX: name had X views and was clicked X times*/
-  
   let ul = document.querySelector('ul');
   for (let i = 0; i < allDucks.length; i++) {
     let li= document.createElement('li');
@@ -148,6 +161,7 @@ function renderResults() {
     ${allDucks[i].clicks} times.`;
     ul.appendChild(li);
   }
+  console.log(renderResults);
 }
 
 // Chart code
@@ -202,9 +216,9 @@ function renderChart(){
     };
     // console.log(backgroundColor);
     // console.log(borderColor);
-    console.log(duckNames);
-    console.log(duckViews);
-    console.log(duckClicks);
+    // console.log(duckNames);
+    // console.log(duckViews);
+    // console.log(duckClicks);
 
   const config = {
     type: 'bar',
@@ -258,10 +272,12 @@ let unicorn = new Duck ('unicorn');
 let watercan = new Duck ('water-can');
 let wineglass = new Duck ('wine-glass');
 
-allDucks.push(bag, banana, bathroom, boots, 
-  breakfast, bubblegum, chair, cthulhu, dogduck, dragon, 
-  pen, petsweep, scissors, shark, sweep, tauntaun, 
-  unicorn, watercan, wineglass);
+voteData();
+
+// allDucks.push(bag, banana, bathroom, boots, 
+//   breakfast, bubblegum, chair, cthulhu, dogduck, dragon, 
+//   pen, petsweep, scissors, shark, sweep, tauntaun, 
+//   unicorn, watercan, wineglass);
 
   console.log(allDucks.name);
   console.log(bag.name);
@@ -269,7 +285,6 @@ allDucks.push(bag, banana, bathroom, boots,
 renderDucks();
 
 duckContainer.addEventListener('click', handleDuckClick);
-
 
 
 // if (clicks === clickallowed) {
