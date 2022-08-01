@@ -54,7 +54,7 @@ section {
 /* Class selectors */
 
 .container {
-  border: 5px solid red;
+  border: 5px solid #F00C85;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   grid-template-rows: 250px 500px 100px;
@@ -86,7 +86,7 @@ section {
 }
 
 .parragraph {
-  background-color: aquamarine;
+  background-color: #B3EDC3;
   grid-column-start: 2;
   grid-column-end: 5;
   grid-row-start: 3;
@@ -95,7 +95,7 @@ section {
 }
 
 .results {
-  background-color: yellow;
+  background-color: #BDDFEE;
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
